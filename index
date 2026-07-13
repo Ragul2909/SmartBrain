@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Brain</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav>
+    <h2>Smart Brain</h2>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="ai.html">AI Assistant</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+
+<h1>Welcome to Smart Brain</h1>
+
+<p>Your AI-powered productivity and learning companion.</p>
+
+<a href="notes.html" class="btn">Get Started</a>
+
+</section>
+
+<section class="features">
+
+<div class="card">
+<h3>📝 Smart Notes</h3>
+<p>Create and organize your notes easily.</p>
+</div>
+
+<div class="card">
+<h3>✅ Daily Tasks</h3>
+<p>Plan your work with a simple task manager.</p>
+</div>
+
+<div class="card">
+<h3>🤖 AI Assistant</h3>
+<p>Ask questions and receive smart suggestions.</p>
+</div>
+
+</section>
+
+</body>
+</html>
