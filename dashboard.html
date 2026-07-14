@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Brain Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#eef3f8;
+}
+
+nav{
+background:#2563eb;
+color:white;
+padding:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+}
+
+nav ul li{
+margin-left:20px;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+}
+
+.container{
+width:90%;
+margin:auto;
+padding:30px 0;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+text-align:center;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h2{
+font-size:35px;
+color:#2563eb;
+margin:10px 0;
+}
+
+.progress{
+background:#ddd;
+height:25px;
+border-radius:20px;
+overflow:hidden;
+margin-top:15px;
+}
+
+.progress-bar{
+height:100%;
+background:#22c55e;
+width:0%;
+color:white;
+text-align:center;
+line-height:25px;
+font-weight:bold;
+}
+
+.clock{
+margin-top:30px;
+background:white;
+padding:20px;
+border-radius:15px;
+text-align:center;
+font-size:22px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<h2>🧠 Smart Brain</h2>
+
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="notes.html">Notes</a></li>
+<li><a href="tasks.html">Tasks</a></li>
+<li><a href="ai.html">AI</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+</ul>
+
+</nav>
+
+<div class="container">
+
+<h1>📊 Dashboard</h1>
+
+<br>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Notes</h3>
+<h2 id="notes">0</h2>
+</div>
+
+<div class="card">
+<h3>Total Tasks</h3>
+<h2 id="tasks">0</h2>
+</div>
+
+<div class="card">
+<h3>Completed</h3>
+<h2 id="completed">0</h2>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<h2 id="pending">0</h2>
+</div>
+
+</div>
+
+<div class="clock">
+<div id="date"></div>
+<div id="time"></div>
+</div>
+
+<br>
+
+<h3>Overall Progress</h3>
+
+<div class="progress">
+<div class="progress-bar" id="bar">0%</div>
+</div>
+
+</div>
+
+<script>
+
+let notes=JSON.parse(localStorage.getItem("notes"))||[];
+
+let tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+
+let completed=0;
+
+tasks.forEach(t=>{
+if(t.completed)
+completed++;
+});
+
+let pending=tasks.length-completed;
+
+document.getElementById("notes").innerHTML=notes.length;
+
+document.getElementById("tasks").innerHTML=tasks.length;
+
+document.getElementById("completed").innerHTML=completed;
+
+document.getElementById("pending").innerHTML=pending;
+
+let percent=0;
+
+if(tasks.length>0)
+percent=Math.round((completed/tasks.length)*100);
+
+document.getElementById("bar").style.width=percent+"%";
+
+document.getElementById("bar").innerHTML=percent+"%";
+
+function clock(){
+
+let now=new Date();
+
+document.getElementById("date").innerHTML=now.toDateString();
+
+document.getElementById("time").innerHTML=now.toLocaleTimeString();
+
+}
+
+clock();
+
+setInterval(clock,1000);
+
+</script>
+
+</body>
+</html>
