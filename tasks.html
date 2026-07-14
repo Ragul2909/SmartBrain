@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Brain - Task Manager</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.container{
+width:90%;
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.task-input{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+}
+
+.task-input input,
+.task-input select{
+padding:10px;
+font-size:16px;
+}
+
+.task-input button{
+padding:10px 20px;
+cursor:pointer;
+}
+
+.task-card{
+background:#fff;
+margin:15px 0;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+
+.completed{
+text-decoration:line-through;
+color:gray;
+}
+
+.actions button{
+margin:5px;
+padding:8px 12px;
+cursor:pointer;
+}
+
+.high{
+color:red;
+font-weight:bold;
+}
+
+.medium{
+color:orange;
+font-weight:bold;
+}
+
+.low{
+color:green;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+<h2>Smart Brain</h2>
+
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="notes.html">Notes</a></li>
+<li><a href="tasks.html">Tasks</a></li>
+<li><a href="ai.html">AI Assistant</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+</ul>
+
+</nav>
+
+<div class="container">
+
+<h1>Advanced Task Manager</h1>
+
+<div class="task-input">
+
+<input type="text" id="taskName" placeholder="Enter Task">
+
+<select id="priority">
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+
+<input type="date" id="dueDate">
+
+<button onclick="addTask()">Add Task</button>
+
+</div>
+
+<input type="text" id="search" placeholder="Search Task" onkeyup="displayTasks()">
+
+<h3>Total Tasks : <span id="count">0</span></h3>
+
+<div id="taskList"></div>
+
+</div>
+
+<script>
+
+let tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+
+function saveTasks(){
+localStorage.setItem("tasks",JSON.stringify(tasks));
+}
+
+function addTask(){
+
+let name=document.getElementById("taskName").value;
+let priority=document.getElementById("priority").value;
+let due=document.getElementById("dueDate").value;
+
+if(name==""){
+alert("Enter Task");
+return;
+}
+
+tasks.push({
+name:name,
+priority:priority,
+due:due,
+completed:false
+});
+
+saveTasks();
+
+document.getElementById("taskName").value="";
+document.getElementById("dueDate").value="";
+
+displayTasks();
+
+}
+
+function displayTasks(){
+
+let search=document.getElementById("search").value.toLowerCase();
+
+let html="";
+
+tasks.forEach((task,index)=>{
+
+if(task.name.toLowerCase().includes(search)){
+
+html+=`
+
+<div class="task-card">
+
+<h3 class="${task.completed?'completed':''}">
+${task.name}
+</h3>
+
+<p>Priority :
+<span class="${task.priority.toLowerCase()}">
+${task.priority}
+</span>
+</p>
+
+<p>Due Date : ${task.due}</p>
+
+<div class="actions">
+
+<button onclick="completeTask(${index})">
+${task.completed?'Undo':'Complete'}
+</button>
+
+<button onclick="editTask(${index})">
+Edit
+</button>
+
+<button onclick="deleteTask(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById("taskList").innerHTML=html;
+
+document.getElementById("count").innerHTML=tasks.length;
+
+}
+
+function completeTask(index){
+
+tasks[index].completed=!tasks[index].completed;
+
+saveTasks();
+
+displayTasks();
+
+}
+
+function deleteTask(index){
+
+if(confirm("Delete this task?")){
+
+tasks.splice(index,1);
+
+saveTasks();
+
+displayTasks();
+
+}
+
+}
+
+function editTask(index){
+
+let newTask=prompt("Edit Task",tasks[index].name);
+
+if(newTask!=null && newTask!=""){
+
+tasks[index].name=newTask;
+
+saveTasks();
+
+displayTasks();
+
+}
+
+}
+
+displayTasks();
+
+</script>
+
+</body>
+</html>
